@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>KIT CAT GO!</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Do not add `link` tags-->
+  <link rel="shortcut icon" type="image/x-icon" href="favicon.ico">
+  <link rel="stylesheet" type="text/css" href="/assets/styles/index.scss">
+  <link href="https://fonts.googleapis.com/css?family=Bungee+Shade|Dosis" rel="stylesheet">
+  <!-- Do not add `script` tags-->
+  <script src="public/vendor.js" type="text/javascript" charset="utf-8" defer></script>
+  <script src="public/application.js" type="text/javascript" charset="utf-8" defer></script>
+</head>
+
+<body class="container-fluid">
+  <header class="header-bar">KIT CAT GO!</header>
+  <div class="row">
+  <div class="col left sidebar">
+    <img src="http://www.pngall.com/wp-content/uploads/2016/05/Kitten-PNG-HD.png" class="score-img" alt="kitten">
+    <h3> Xavier's Score: <span id="xscore">0</span> </h3>
+    <img src="http://www.pngall.com/wp-content/uploads/2016/05/Kitten-PNG.png" class="score-img" alt="kitten">
+    <h3> Oliver's Score: <span id="oscore">0</span></h3>
+  </div>
+  <div class="col-xs-9 center content">
+    <div class="row content" id="game-start-content">
+      <h3 id="game-prompt"> Ready to play? </h3>
+      <form class="new-game" action="index.html" method="post">
+        <button type="submit" class="btn btn-primary start" name="button">Start New Game</button>
+      </form>
+      <button id="restore-game-btn" data-id="" type="submit" class="btn btn-default" value="Restore Game">Restore Previous Game?</button>
+    </div>
+    <div class="container col-xs-9-offset-3" id="grid-container">
+      <div class="row">
+        <div class="col-xs-3 game cell" id="0">
+        </div>
+        <div class="col-xs-3 game cell" id="1">
+        </div>
+        <div class="col-xs-3 game cell" id="2">
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-xs-3 game cell" id="3">
+        </div>
+        <div class="col-xs-3 game cell" id="4">
+        </div>
+        <div class="col-xs-3 game cell" id="5">
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-xs-3 game cell" id="6">
+        </div>
+        <div class="col-xs-3 game cell" id="7">
+        </div>
+        <div class="col-xs-3 game cell" id="8">
+        </div>
+      </div>
+    </div>
+    <div class="game-history" id="game-history-container">
+      <h3>Game History</h3>
+      <script id="game-history-template" type="text/x-handlebars-template">
+        <table id="game-history-table">
+          <thead>
+            <th>Game Id</th>
+            <th>Completed</th>
+            <!-- <th>Restore Game</th> -->
+          </thead>
+          <tbody>
+            {{#games}}
+            <tr>
+              <td>{{id}}</td>
+              <td>{{over}}</td>
+              <!-- <td><button id="restore-game-btn" data-id="{{id}}" type="submit" class="btn btn-default" value="Restore Game">Restore Game</button> -->
+            </tr>
+            {{/games}}
+          </tbody>
+        </table>
+      </script>
+    </div>
+  </div>
+  <div class="col right sidebar">
+    <h4 id="sign-in-prompt">Sign in to play!</h4>
+    <form class="user-signup">
+      <h4> Create an Account </h4>
+      <input name="credentials[email]" type="text" value="" placeholder="Email">
+      <input name="credentials[password]" type="password" value="" placeholder="Password">
+      <input name="credentials[password_confirmation]" type="password" value="" placeholder="Re-enter Password">
+      <button type="submit" name="submit" class="btn btn-default" value="Sign Up!" id="create-button">Create Account</button>
+    </form>
+    <form class="user-login" id="user-login">
+      <h4> Already have an account? </h4>
+      <input name="credentials[email]" type="text" value="" placeholder="Email">
+      <input name="credentials[password]" type="password" value="" placeholder="Password">
+      <button type="submit" name="submit" class="btn btn-default" value="Sign In!" id="sign-in-button">Sign In</button>
+    </form>
+    <form class="user-logout" id="user-logout">
+      <button type="submit" value="Sign Out!" class="btn btn-default" id="sign-out-button">Sign Out</button>
+    </form>
+    <form class="change-password" id="change-pw">
+      <input name="credentials[email]" type="text" value="" placeholder="Email">
+      <input name="credentials[password]" type="password" value="" placeholder="Password">
+      <input name="credentials[newpassword]" type="password" value="" placeholder="New Password">
+      <button type="submit" value="Change Password" class="btn btn-default" id="change-pw-button">Change Password</button>
+    </form>
+    <button type="submit" value="Game History" class="btn btn-default" id="game-history-btn">Show Game History</button>
+    <button type="submit" value="Game History" class="btn btn-default" id="hide-game-history-btn">Hide Game History</button>
+
+  </div>
+</div>
+  <div class=row>
+    <div class="col-xs-12">
+      <footer>Created by Ash Trull 2017</footer>
+    </div>
+  </div>
+</body>
+
+</html>
