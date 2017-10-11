@@ -32,9 +32,125 @@ module.exports = config;
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
+
+
+module.exports = true;
+
+/***/ }),
+/* 4 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
 /* WEBPACK VAR INJECTION */(function($) {
 
-var boardEvents = __webpack_require__(5);
+var setAPIOrigin = __webpack_require__(11);
+var config = __webpack_require__(2);
+var boardEvents = __webpack_require__(6);
+var authEvents = __webpack_require__(17);
+var apiEvents = __webpack_require__(7);
+
+$(function () {
+  setAPIOrigin(location, config);
+});
+
+__webpack_require__(3);
+
+$(function () {
+  $(function () {
+    $('#grid-container').hide();
+    $('.new-game').hide();
+    $('.user-logout').hide();
+    $('#change-pw').hide();
+    $('#game-history-container').hide();
+    $('#game-history-btn').hide();
+    $('#hide-game-history-btn').hide();
+    $('#save-game-btn').hide();
+    $('#game-start-content  ').hide();
+  });
+
+  $('.game.cell').on('click', function () {
+    boardEvents.onPlaceMarker(this.id);
+  });
+  // $('.start').on('click', function () {
+  //  ('.start').on()
+  // })
+  $('.user-signup').on('submit', authEvents.onSignUp);
+  $('.user-login').on('submit', authEvents.onSignIn);
+  $('#change-pw').on('submit', authEvents.onChangePassword);
+  $('.user-logout').on('submit', authEvents.onSignOut);
+  $('#game-history-btn').on('click', apiEvents.onGameHistory);
+  $('#hide-game-history-btn').on('click', function () {
+    $('#game-history-container').hide();
+    $('#grid-container').show();
+    $('#game-start-content').show();
+    $('#game-history-btn').show();
+    $('#hide-game-history-btn').hide();
+  });
+  $('#save-game-btn').on('click', apiEvents.onSaveGame);
+  $('#restore-game-btn').on('click', boardEvents.setCells).on('click', apiEvents.onRestoreGame);
+  $('.new-game').on('submit', apiEvents.onNewGame).on('submit', function () {
+    $('#grid-container').show();
+    boardEvents.resetGame();
+    $('#game-prompt').html('Xavier always starts!');
+  });
+});
+
+// TODO Message " __ wins! " or "Game over. Play again?"
+
+// TODO If win, add 1 point to the game winner's score
+
+// TODO Players can search for an existing game to continue
+
+// TODO Game stored in incomplete or complete stage
+
+module.exports = {
+  boardEvents: boardEvents
+};
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
+
+/***/ }),
+/* 5 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var addNestedValue = function addNestedValue(pojo, name, value) {
+  var recurse = function recurse(pojo, keys, value) {
+    var key = keys.shift();
+    var next = keys[0];
+    if (next === '') {
+      // key is an array
+      pojo[key] = pojo[key] || [];
+      pojo[key].push(value);
+    } else if (next) {
+      // key is a parent key
+      pojo[key] = pojo[key] || {};
+      recurse(pojo[key], keys, value);
+    } else {
+      // key is the key for value
+      pojo[key] = value;
+    }
+
+    return pojo;
+  };
+
+  var keys = name.split('[').map(function (k) {
+    return k.replace(/]$/, '');
+  });
+  return recurse(pojo, keys, value);
+};
+
+module.exports = addNestedValue;
+
+/***/ }),
+/* 6 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function($) {
+
+var boardEvents = __webpack_require__(4);
 var gameApi = __webpack_require__(7);
 var app = __webpack_require__(1);
 
@@ -213,122 +329,6 @@ module.exports = {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 4 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-module.exports = true;
-
-/***/ }),
-/* 5 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function($) {
-
-var setAPIOrigin = __webpack_require__(11);
-var config = __webpack_require__(2);
-var boardEvents = __webpack_require__(3);
-var authEvents = __webpack_require__(17);
-var apiEvents = __webpack_require__(7);
-
-$(function () {
-  setAPIOrigin(location, config);
-});
-
-__webpack_require__(4);
-
-$(function () {
-  $(function () {
-    $('#grid-container').hide();
-    $('.new-game').hide();
-    $('.user-logout').hide();
-    $('#change-pw').hide();
-    $('#game-history-container').hide();
-    $('#game-history-btn').hide();
-    $('#hide-game-history-btn').hide();
-    $('#save-game-btn').hide();
-    $('#game-start-content  ').hide();
-  });
-
-  $('.game.cell').on('click', function () {
-    boardEvents.onPlaceMarker(this.id);
-  });
-  // $('.start').on('click', function () {
-  //  ('.start').on()
-  // })
-  $('.user-signup').on('submit', authEvents.onSignUp);
-  $('.user-login').on('submit', authEvents.onSignIn);
-  $('#change-pw').on('submit', authEvents.onChangePassword);
-  $('.user-logout').on('submit', authEvents.onSignOut);
-  $('#game-history-btn').on('click', apiEvents.onGameHistory);
-  $('#hide-game-history-btn').on('click', function () {
-    $('#game-history-container').hide();
-    $('#grid-container').show();
-    $('#game-start-content').show();
-    $('#game-history-btn').show();
-    $('#hide-game-history-btn').hide();
-  });
-  $('#save-game-btn').on('click', apiEvents.onSaveGame);
-  $('#restore-game-btn').on('click', boardEvents.setCells).on('click', apiEvents.onRestoreGame);
-  $('.new-game').on('submit', apiEvents.onNewGame).on('submit', function () {
-    $('#grid-container').show();
-    boardEvents.resetGame();
-    $('#game-prompt').html('Xavier always starts!');
-  });
-});
-
-// TODO Message " __ wins! " or "Game over. Play again?"
-
-// TODO If win, add 1 point to the game winner's score
-
-// TODO Players can search for an existing game to continue
-
-// TODO Game stored in incomplete or complete stage
-
-module.exports = {
-  boardEvents: boardEvents
-};
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
-
-/***/ }),
-/* 6 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var addNestedValue = function addNestedValue(pojo, name, value) {
-  var recurse = function recurse(pojo, keys, value) {
-    var key = keys.shift();
-    var next = keys[0];
-    if (next === '') {
-      // key is an array
-      pojo[key] = pojo[key] || [];
-      pojo[key].push(value);
-    } else if (next) {
-      // key is a parent key
-      pojo[key] = pojo[key] || {};
-      recurse(pojo[key], keys, value);
-    } else {
-      // key is the key for value
-      pojo[key] = value;
-    }
-
-    return pojo;
-  };
-
-  var keys = name.split('[').map(function (k) {
-    return k.replace(/]$/, '');
-  });
-  return recurse(pojo, keys, value);
-};
-
-module.exports = addNestedValue;
-
-/***/ }),
 /* 7 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -339,7 +339,7 @@ var api = __webpack_require__(13);
 var ui = __webpack_require__(14);
 var app = __webpack_require__(1);
 var getFormFields = __webpack_require__(8);
-var gameEvents = __webpack_require__(3);
+var gameEvents = __webpack_require__(6);
 var store = __webpack_require__(16);
 
 var onNewGame = function onNewGame(event) {
@@ -397,7 +397,7 @@ module.exports = {
 "use strict";
 
 
-var addNestedValue = __webpack_require__(6);
+var addNestedValue = __webpack_require__(5);
 
 var getFormFields = function getFormFields(form) {
   var target = {};
@@ -456,7 +456,7 @@ module.exports = __webpack_require__.p + "f4769f9bdb7466be65088239c12046d1.eot";
 // load manifests
 // scripts
 
-__webpack_require__(5);
+__webpack_require__(4);
 
 // styles
 __webpack_require__(20);
@@ -509,7 +509,7 @@ module.exports = setAPIOrigin;
 "use strict";
 
 
-var addNestedValue = __webpack_require__(6);
+var addNestedValue = __webpack_require__(5);
 
 var parseNestedQuery = function parseNestedQuery(queryString) {
   return queryString.split('&').reduce(function (memo, element) {
@@ -638,7 +638,6 @@ module.exports = {
 
 var Handlebars = __webpack_require__(15);
 var app = __webpack_require__(1);
-var gameEvents = __webpack_require__(3);
 
 var createGameSuccess = function createGameSuccess(data) {
   app.game = data.game;

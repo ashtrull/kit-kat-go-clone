@@ -14,6 +14,16 @@ req.keys().forEach(req);
 
 /***/ }),
 
+/***/ 3:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+module.exports = true;
+
+/***/ }),
+
 /***/ 30:
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -44,23 +54,13 @@ webpackContext.id = 30;
 "use strict";
 
 
-var example = __webpack_require__(4);
+var example = __webpack_require__(3);
 
 describe('Example', function () {
   it('is true', function () {
     expect(example).toBe(true);
   });
 });
-
-/***/ }),
-
-/***/ 4:
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-module.exports = true;
 
 /***/ })
 

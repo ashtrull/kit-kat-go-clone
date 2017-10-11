@@ -1,25 +1,19 @@
 {
-  "default": ["nag"],
+  "default": ["nag", "test"],
   "deploy": [
     "shell:git-is-clean",
     "shell:git-checkout-master",
     "build",
     "shell:git-push-master",
-    "shell:deploy-prepare-1",
-    "shell:deploy-prepare-2",
-    "shell:deploy-prepare-3",
-    "shell:deploy-publish-1",
-    "shell:deploy-publish-2",
-    "shell:deploy-publish-3",
-    "shell:deploy-publish-4",
-    "shell:deploy-publish-5",
-    "shell:deploy-publish-6"
+    "shell:deploy-prepare",
+    "build",
+    "shell:deploy-publish"
   ],
   "build": ["webpack:build"],
   "server": ["webpack-dev-server:start"],
   "serve": ["server"],
   "s": ["server"],
   "make-standard": ["eslint:fix"],
-  "nag": ["eslint:all", "jsonlint:all"],
-  "test": ["build", "jasmine"]
+  "nag": ["eslint:all", "jsonlint:all", "sasslint:all"],
+  "test": ["mocha_phantomjs"]
 }
